@@ -1,7 +1,46 @@
-#include <string>
 #ifndef CALCULATOR_H_FILE
 #define CALCULATOR_H_FILE
 #endif
+#include <string>
+
+class ResultOutOfLimitException : public std::exception
+{
+  private:
+    std::string error_msg;
+
+  public:
+    ResultOutOfLimitException(const std::string& error) : error_msg(error)
+    {
+    }
+
+    const char* what() const noexcept;
+};
+
+class ZeroDivisionException : public std::exception
+{
+  private:
+    std::string error_msg;
+
+  public:
+    ZeroDivisionException(const std::string& error) : error_msg(error)
+    {
+    }
+
+    const char* what() const noexcept;
+};
+
+class UnknowmOperatorException : public std::exception
+{
+  private:
+    std::string error_msg;
+
+  public:
+    UnknowmOperatorException(const std::string& error) : error_msg(error)
+    {
+    }
+
+    const char* what() const noexcept;
+};
 
 class Calculator
 {
