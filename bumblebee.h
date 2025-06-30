@@ -11,7 +11,7 @@
 * @param num is the int type number to check
 * @return 1 if 'num' is prime, 0 if not
 */
-int is_prime(int num);
+bool is_prime(int num);
 
 
 /**
