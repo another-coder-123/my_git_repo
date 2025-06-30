@@ -48,14 +48,14 @@ int main()
 	
 	std::cout << "Enter a number: ";
 	if (std::cin >> number) {
-		std::cout << "Checking if " << number << " is prime...\n";
+		std::cout << "Checking if " << number << " is prime..." << std::endl;
 		prime_flag = is_prime(number);
 		if (prime_flag)
 		{
-			std::cout << "It is Prime!\n";
+			std::cout << "It is Prime!" << std::endl;
 		}
 		else {
-			std::cout << "This number is not Prime!\n";
+			std::cout << "This number is not Prime!" << std::endl;
 		}
 	}
 	else {
