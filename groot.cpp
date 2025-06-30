@@ -7,7 +7,7 @@ int main()
     double result;
 
     std::cout << "Enter a number: ";
-    if (std::cin >> num)
+    if ((std::cin >> num) and num > 0)
     {
         result = std::sqrt(num);
         std::cout << "The square root of: " << num << " is: " << result << std::endl;
