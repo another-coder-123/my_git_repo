@@ -1,13 +1,13 @@
 #include <iostream>
 
+const int ROWS = 11;
+const int COLUMNS = 11;
+
 int main()
 {
-    const int rows = 11;
-    const int columns = 11;
-
-    for (int j=1; j <= rows; ++j)
+    for (int j=1; j <= ROWS; ++j)
     {
-        for (int i=1; i <= columns; ++i)
+        for (int i=1; i <= COLUMNS; ++i)
             std::cout << i * j << ' ';
         std::cout << std::endl;
     }
