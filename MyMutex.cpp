@@ -1,18 +1,17 @@
+#include "MyMutex.h"
+
 #include <stdio.h>
 #include <Windows.h>
-#include "MyMutex.h"
 #include <iostream>
 
+#include "exceptions.h"
 
-const char* MutexException::what() const noexcept
-{
-    return error_msg.c_str();
-}
-
-
-MyMutex::MyMutex(LPCSTR name)
+MyMutex::MyMutex(const char* name)
 {
     m_hmutex = CreateMutexA(NULL, FALSE, name);
+    if (!IsValid()) {
+        throw MutexException("Mutex is invalid!");
+    }
 };
 
 bool MyMutex::IsValid()
@@ -28,7 +27,7 @@ bool MyMutex::IsValid()
 
 MyMutex::~MyMutex()
 {
-    if (IsValid() == true) {
+    if (IsValid()) {
         CloseHandle(m_hmutex);
     }
 };

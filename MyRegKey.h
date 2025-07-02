@@ -2,20 +2,11 @@
 #include <string>
 #include <memory>
 
-class RegistryAccessException : public std::exception
-{
-private:
-    std::string error_msg;
-
-public:
-    RegistryAccessException(const std::string& error) : error_msg(error) {}
-    const char* what() const noexcept;
-};
-
-
 class MyRegKey {
 public:
     MyRegKey();
+    MyRegKey(const MyRegKey& other);
+    MyRegKey& operator=(const MyRegKey& other);
     void SetValue(LPCSTR sub_key_path, LPCSTR value_name, LPCSTR value_data);
     ~MyRegKey();
 private:

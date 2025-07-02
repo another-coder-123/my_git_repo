@@ -1,13 +1,11 @@
+#include "MyRegKey.h"
+
 #include <stdio.h>
 #include <Windows.h>
-#include "MyRegKey.h"
 #include <memory>
 #include <iostream>
 
-const char* RegistryAccessException::what() const noexcept
-{
-    return error_msg.c_str();
-};
+#include "exceptions.h"
 
 MyRegKey::MyRegKey()
 {

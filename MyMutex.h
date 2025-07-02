@@ -1,19 +1,12 @@
 #pragma once
 #include <string>
 
-class MutexException : public std::exception
-{
-private:
-    std::string error_msg;
-
-public:
-    MutexException(const std::string& error) : error_msg(error) {}
-    const char* what() const noexcept;
-};
 
 class MyMutex {
 public:
-    MyMutex(LPCSTR name);
+    MyMutex(const char* name);
+    MyMutex(const MyMutex& other);
+    MyMutex& operator=(const MyMutex& other);
     bool IsValid();
     ~MyMutex();
 private:
