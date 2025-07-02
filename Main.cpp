@@ -10,7 +10,7 @@ const char* SUB_KEY_PATH = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 const char* VALUE_NAME = "ManagementProgram";
 const char* VALUE_DATA = "\"C:\\Users\\mikad\\source\\repos\\msgonstartup\\x64\\Debug\\msgonstartup.exe\"";
 const unsigned long MILISECS_TO_SLEEP = 10000;
-LPCSTR MUTEX_NAME = "msgonstartup.exe";
+const char* MUTEX_NAME = "msgonstartup.exe";
 
 int main()
 {
