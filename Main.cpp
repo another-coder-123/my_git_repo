@@ -4,20 +4,22 @@
 #include "Utilities.h"
 #include "MyMutex.h"
 #include "MyRegKey.h"
+#include "CustomExceptions.h"
 
-const LPCSTR SUB_KEY_PATH = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-const LPCSTR VALUE_NAME = "ManagementProgram";
-const LPCSTR VALUE_DATA = "\"C:\\Users\\mikad\\source\\repos\\msgonstartup\\x64\\Debug\\msgonstartup.exe\"";
-const DWORD MILISECS_TO_SLEEP = 10000;
-const char* MUTEX_NAME = "msgonstartup.exe";
+const char* SUB_KEY_PATH = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+const char* VALUE_NAME = "ManagementProgram";
+const char* VALUE_DATA = "\"C:\\Users\\mikad\\source\\repos\\msgonstartup\\x64\\Debug\\msgonstartup.exe\"";
+const unsigned long MILISECS_TO_SLEEP = 10000;
+LPCSTR MUTEX_NAME = "msgonstartup.exe";
 
 int main()
 {
     MyMutex existingMutex(MUTEX_NAME);
-    MyRegKey my_reg_key;
+    
+    MyRegKey myRegKey;
 
-    my_reg_key.SetValue(SUB_KEY_PATH, VALUE_NAME, VALUE_DATA);
-    MakePopUp();
+    myRegKey.setValue(SUB_KEY_PATH, VALUE_NAME, VALUE_DATA);
+    makePopUp();
     Sleep(MILISECS_TO_SLEEP);
 
     std::cout << "Done" << std::endl;

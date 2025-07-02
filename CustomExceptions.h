@@ -1,22 +1,21 @@
 #pragma once
 #include <iostream>
+#include <exception>
 
 class RegistryAccessException : public std::exception
 {
-private:
-    std::string error_msg;
-
 public:
-    RegistryAccessException(const std::string& error) : error_msg(error) {}
+    RegistryAccessException(const std::string& error) : errorMsg(error) {}
     const char* what() const noexcept;
+private:
+    std::string errorMsg;
 };
 
 class MutexException : public std::exception
 {
-private:
-    std::string error_msg;
-
 public:
-    MutexException(const std::string& error) : error_msg(error) {}
+    MutexException(const std::string& error) : errorMsg(error) {}
     const char* what() const noexcept;
+private:
+    std::string errorMsg;
 };

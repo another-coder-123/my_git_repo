@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <Windows.h>
 #include <memory>
 
 class MyRegKey {
@@ -7,14 +8,14 @@ public:
     MyRegKey();
     MyRegKey(const MyRegKey& other);
     MyRegKey& operator=(const MyRegKey& other);
-    void SetValue(LPCSTR sub_key_path, LPCSTR value_name, LPCSTR value_data);
+    void setValue(const char* sub_key_path, const char* value_name, const char* value_data);
     ~MyRegKey();
 private:
     /**
     * Returns true if 'value_name' is already defined in subkey
     * Returns false if it does not exist
     */
-    bool IsValueExists(LPCSTR sub_key_path, LPCSTR value_name);
+    bool doesValueExist(const char* sub_key_path, const char* value_name);
 
-    std::unique_ptr<HKEY> m_hkey;
+    std::unique_ptr<HKEY> m_phkey;
 };

@@ -1,12 +1,11 @@
-#include "exceptions.h"
-
+#include "CustomExceptions.h"
 
 const char* RegistryAccessException::what() const noexcept
 {
-    return error_msg.c_str();
+    return errorMsg.c_str();
 };
 
 const char* MutexException::what() const noexcept
 {
-    return error_msg.c_str();
+    return errorMsg.c_str();
 };

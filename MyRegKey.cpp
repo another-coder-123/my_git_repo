@@ -5,47 +5,76 @@
 #include <memory>
 #include <iostream>
 
-#include "exceptions.h"
+#include "CustomExceptions.h"
 
 MyRegKey::MyRegKey()
 {
-    int error_code;
-    m_hkey = std::make_unique<HKEY>();
+    int errorCode;
+    m_phkey = std::make_unique<HKEY>();
 
-    error_code = RegOpenCurrentUser(KEY_ALL_ACCESS, &*m_hkey);
-    if (error_code != ERROR_SUCCESS) {
-        std::cout << "error code " << error_code << std::endl;
-        throw RegistryAccessException("RegOpenCurrentUser Failed! Error code: " + error_code);
+    errorCode = RegOpenCurrentUser(KEY_ALL_ACCESS, m_phkey.get());
+    if (errorCode != ERROR_SUCCESS) {
+        std::cout << "error code " << errorCode << std::endl;
+        throw RegistryAccessException("RegOpenCurrentUser Failed! Error code: " + errorCode);
     }
     std::cout << "Key was opened" << std::endl;
 };
 
-bool MyRegKey::IsValueExists(LPCSTR sub_key_path, LPCSTR value_name)
+MyRegKey::MyRegKey(const MyRegKey& other)
 {
-    int error_code;
+    int errorCode;
+    *this->m_phkey = *other.m_phkey;
 
-    error_code = RegGetValueA(*m_hkey, sub_key_path, value_name, RRF_RT_ANY, NULL, NULL, NULL);
-    if (error_code == ERROR_SUCCESS) {
-        return true;
+    errorCode = RegOpenCurrentUser(KEY_ALL_ACCESS, m_phkey.get());
+    if (errorCode != ERROR_SUCCESS) {
+        std::cout << "error code " << errorCode << std::endl;
+        throw RegistryAccessException("RegOpenCurrentUser Failed! Error code: " + errorCode);
     }
-    else if (error_code == ERROR_FILE_NOT_FOUND) {
-        return false;
-    }
-    throw RegistryAccessException("RegGetValueA Failed! Error code: " + error_code);
+    std::cout << "Key was opened" << std::endl;
 };
 
-void MyRegKey::SetValue(LPCSTR sub_key_path, LPCSTR value_name, LPCSTR value_data)
+MyRegKey& MyRegKey::operator=(const MyRegKey& other)
 {
-    int error_code;
+    int errorCode;
+    *this->m_phkey = *other.m_phkey;
 
-    if (this->IsValueExists(sub_key_path, value_name) == false) {
-        error_code = RegSetKeyValueA(*this->m_hkey, sub_key_path, value_name, REG_SZ, value_data, strlen(value_data) + 1);
-        if (error_code == ERROR_SUCCESS) {
+    errorCode = RegOpenCurrentUser(KEY_ALL_ACCESS, m_phkey.get());
+    if (errorCode != ERROR_SUCCESS) {
+        std::cout << "error code " << errorCode << std::endl;
+        throw RegistryAccessException("RegOpenCurrentUser Failed! Error code: " + errorCode);
+    }
+    std::cout << "Key was opened" << std::endl;
+    return *this;
+};
+
+bool MyRegKey::doesValueExist(const char* sub_key_path, const char* value_name)
+{
+    int errorCode;
+
+    errorCode = RegGetValueA(*m_phkey, (LPCSTR)sub_key_path, (LPCSTR)value_name, RRF_RT_ANY, NULL, NULL, NULL);
+    if (errorCode == ERROR_SUCCESS) {
+        return true;
+    }
+    else if (errorCode == ERROR_FILE_NOT_FOUND) {
+        return false;
+    }
+    throw RegistryAccessException("RegGetValueA Failed! Error code: " + errorCode);
+};
+
+
+
+void MyRegKey::setValue(const char* sub_key_path, const char* value_name, const char* value_data)
+{
+    int errorCode;
+
+    if (this->doesValueExist(sub_key_path, value_name) == false) {
+        errorCode = RegSetKeyValueA(*this->m_phkey, (LPCSTR)sub_key_path, (LPCSTR)value_name, REG_SZ, value_data, strlen(value_data) + 1);
+        if (errorCode == ERROR_SUCCESS) {
             std::cout << "New value was set" << std::endl;
             return;
         }
         else {
-            throw RegistryAccessException("RegSetKeyValueA Failed! Error code: " + error_code);
+            throw RegistryAccessException("RegSetKeyValueA Failed! Error code: " + errorCode);
         }
     }
     std::cout << "Value already exists" << std::endl;
@@ -53,6 +82,6 @@ void MyRegKey::SetValue(LPCSTR sub_key_path, LPCSTR value_name, LPCSTR value_dat
 
 MyRegKey::~MyRegKey()
 {
-    RegCloseKey(*m_hkey);
+    RegCloseKey(*m_phkey);
     
 };
